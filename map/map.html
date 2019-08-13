@@ -1,115 +1,71 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<meta name="keywords" content="°Ù¶ÈµØÍ¼,°Ù¶ÈµØÍ¼API£¬°Ù¶ÈµØÍ¼×Ô¶¨Òå¹¤¾ß£¬°Ù¶ÈµØÍ¼Ëù¼û¼´ËùµÃ¹¤¾ß" />
-<meta name="description" content="°Ù¶ÈµØÍ¼API×Ô¶¨ÒåµØÍ¼£¬°ïÖúÓÃ»§ÔÚ¿ÉÊÓ»¯²Ù×÷ÏÂÉú³É°Ù¶ÈµØÍ¼" />
-<title>°Ù¶ÈµØÍ¼API×Ô¶¨ÒåµØÍ¼</title>
-<!--ÒıÓÃ°Ù¶ÈµØÍ¼API-->
-<style type="text/css">
-    html,body{margin:0;padding:0;}
-    .iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
-    .iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
-</style>
-<script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
-</head>
-
-<body>
-  <!--°Ù¶ÈµØÍ¼ÈİÆ÷-->
-  <div style="width:600px;height:550px;border:#ccc solid 1px;" id="dituContent"></div>
-</body>
-<script type="text/javascript">
-    //´´½¨ºÍ³õÊ¼»¯µØÍ¼º¯Êı£º
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="ç™¾åº¦åœ°å›¾,ç™¾åº¦åœ°å›¾APIï¼Œç™¾åº¦åœ°å›¾è‡ªå®šä¹‰å·¥å…·ï¼Œç™¾åº¦åœ°å›¾æ‰€è§å³æ‰€å¾—å·¥å…·" />
+    <meta name="description" content="ç™¾åº¦åœ°å›¾APIè‡ªå®šä¹‰åœ°å›¾ï¼Œå¸®åŠ©ç”¨æˆ·åœ¨å¯è§†åŒ–æ“ä½œä¸‹ç”Ÿæˆç™¾åº¦åœ°å›¾" />
+    <title>ç™¾åº¦åœ°å›¾APIè‡ªå®šä¹‰åœ°å›¾</title>
+    <!--å¼•ç”¨ç™¾åº¦åœ°å›¾API-->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=EAyl0qp8BI06GaksnVrrGnEtGQobvgwK"></script>
+  </head>
+  
+  <body>
+    <!--ç™¾åº¦åœ°å›¾å®¹å™¨-->
+    <div style="width:600px;height:550px;border:#ccc solid 1px;font-size:12px" id="map"></div>
+  </body>
+  <script type="text/javascript">
+    //åˆ›å»ºå’Œåˆå§‹åŒ–åœ°å›¾å‡½æ•°ï¼š
     function initMap(){
-        createMap();//´´½¨µØÍ¼
-        setMapEvent();//ÉèÖÃµØÍ¼ÊÂ¼ş
-        addMapControl();//ÏòµØÍ¼Ìí¼Ó¿Ø¼ş
-        addMarker();//ÏòµØÍ¼ÖĞÌí¼Ómarker
+      createMap();//åˆ›å»ºåœ°å›¾
+      setMapEvent();//è®¾ç½®åœ°å›¾äº‹ä»¶
+      addMapControl();//å‘åœ°å›¾æ·»åŠ æ§ä»¶
+      addMapOverlay();//å‘åœ°å›¾æ·»åŠ è¦†ç›–ç‰©
     }
-    
-    //´´½¨µØÍ¼º¯Êı£º
-    function createMap(){
-        var map = new BMap.Map("dituContent");//ÔÚ°Ù¶ÈµØÍ¼ÈİÆ÷ÖĞ´´½¨Ò»¸öµØÍ¼
-        var point = new BMap.Point(108.953169,34.238369);//¶¨ÒåÒ»¸öÖĞĞÄµã×ø±ê
-        map.centerAndZoom(point,18);//Éè¶¨µØÍ¼µÄÖĞĞÄµãºÍ×ø±ê²¢½«µØÍ¼ÏÔÊ¾ÔÚµØÍ¼ÈİÆ÷ÖĞ
-        window.map = map;//½«map±äÁ¿´æ´¢ÔÚÈ«¾Ö
+    function createMap(){ 
+      map = new BMap.Map("map"); 
+      map.centerAndZoom(new BMap.Point(108.953687,34.235659),15);
     }
-    
-    //µØÍ¼ÊÂ¼şÉèÖÃº¯Êı£º
     function setMapEvent(){
-        map.enableDragging();//ÆôÓÃµØÍ¼ÍÏ×§ÊÂ¼ş£¬Ä¬ÈÏÆôÓÃ(¿É²»Ğ´)
-        map.enableScrollWheelZoom();//ÆôÓÃµØÍ¼¹öÂÖ·Å´óËõĞ¡
-        map.enableDoubleClickZoom();//ÆôÓÃÊó±êË«»÷·Å´ó£¬Ä¬ÈÏÆôÓÃ(¿É²»Ğ´)
-        map.enableKeyboard();//ÆôÓÃ¼üÅÌÉÏÏÂ×óÓÒ¼üÒÆ¶¯µØÍ¼
+      map.enableScrollWheelZoom();
+      map.enableKeyboard();
+      map.enableDragging();
+      map.enableDoubleClickZoom()
     }
-    
-    //µØÍ¼¿Ø¼şÌí¼Óº¯Êı£º
+    function addClickHandler(target,window){
+      target.addEventListener("click",function(){
+        target.openInfoWindow(window);
+      });
+    }
+    function addMapOverlay(){
+      var markers = [
+        {content:"åœ°å€ï¼šä¼šå±•å›½é™…å¤§å¦",title:"æˆ‘çš„å…¬å¸",imageOffset: {width:-46,height:-21},position:{lat:34.238106,lng:108.954119}}
+      ];
+      for(var index = 0; index < markers.length; index++ ){
+        var point = new BMap.Point(markers[index].position.lng,markers[index].position.lat);
+        var marker = new BMap.Marker(point,{icon:new BMap.Icon("http://api.map.baidu.com/lbsapi/createmap/images/icon.png",new BMap.Size(20,25),{
+          imageOffset: new BMap.Size(markers[index].imageOffset.width,markers[index].imageOffset.height)
+        })});
+        var label = new BMap.Label(markers[index].title,{offset: new BMap.Size(25,5)});
+        var opts = {
+          width: 200,
+          title: markers[index].title,
+          enableMessage: false
+        };
+        var infoWindow = new BMap.InfoWindow(markers[index].content,opts);
+        marker.setLabel(label);
+        addClickHandler(marker,infoWindow);
+        map.addOverlay(marker);
+      };
+    }
+    //å‘åœ°å›¾æ·»åŠ æ§ä»¶
     function addMapControl(){
-        //ÏòµØÍ¼ÖĞÌí¼ÓËõ·Å¿Ø¼ş
-	var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_PAN});
-	map.addControl(ctrl_nav);
-                //ÏòµØÍ¼ÖĞÌí¼Ó±ÈÀı³ß¿Ø¼ş
-	var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
-	map.addControl(ctrl_sca);
+      var scaleControl = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+      scaleControl.setUnit(BMAP_UNIT_IMPERIAL);
+      map.addControl(scaleControl);
+      var navControl = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:2});
+      map.addControl(navControl);
     }
-    
-    //±ê×¢µãÊı×é
-    var markerArr = [{title:"ÎÒµÄ¹«Ë¾",content:"µØÖ·£º»áÕ¹¹ú¼Ê´óÏÃ<br/>Q&nbsp;Q£º2433423110<br/>ÁªÏµÈË£ºÓêÏÈÉú",point:"108.953555|34.237899",isOpen:0,icon:{w:23,h:25,l:46,t:21,x:9,lb:12}}
-		 ];
-    //´´½¨marker
-    function addMarker(){
-        for(var i=0;i<markerArr.length;i++){
-            var json = markerArr[i];
-            var p0 = json.point.split("|")[0];
-            var p1 = json.point.split("|")[1];
-            var point = new BMap.Point(p0,p1);
-			var iconImg = createIcon(json.icon);
-            var marker = new BMap.Marker(point,{icon:iconImg});
-			var iw = createInfoWindow(i);
-			var label = new BMap.Label(json.title,{"offset":new BMap.Size(json.icon.lb-json.icon.x+10,-20)});
-			marker.setLabel(label);
-            map.addOverlay(marker);
-            label.setStyle({
-                        borderColor:"#808080",
-                        color:"#333",
-                        cursor:"pointer"
-            });
-			
-			(function(){
-				var index = i;
-				var _iw = createInfoWindow(i);
-				var _marker = marker;
-				_marker.addEventListener("click",function(){
-				    this.openInfoWindow(_iw);
-			    });
-			    _iw.addEventListener("open",function(){
-				    _marker.getLabel().hide();
-			    })
-			    _iw.addEventListener("close",function(){
-				    _marker.getLabel().show();
-			    })
-				label.addEventListener("click",function(){
-				    _marker.openInfoWindow(_iw);
-			    })
-				if(!!json.isOpen){
-					label.hide();
-					_marker.openInfoWindow(_iw);
-				}
-			})()
-        }
-    }
-    //´´½¨InfoWindow
-    function createInfoWindow(i){
-        var json = markerArr[i];
-        var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b><div class='iw_poi_content'>"+json.content+"</div>");
-        return iw;
-    }
-    //´´½¨Ò»¸öIcon
-    function createIcon(json){
-        var icon = new BMap.Icon("img/us_mk_icon.png", new BMap.Size(json.w,json.h),{imageOffset: new BMap.Size(-json.l,-json.t),infoWindowOffset:new BMap.Size(json.lb+5,1),offset:new BMap.Size(json.x,json.h)})
-        return icon;
-    }
-    
-    initMap();//´´½¨ºÍ³õÊ¼»¯µØÍ¼
-</script>
+    var map;
+      initMap();
+  </script>
 </html>
